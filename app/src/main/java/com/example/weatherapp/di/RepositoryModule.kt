@@ -1,0 +1,1 @@
+package com.example.weatherapp.diimport com.example.weatherapp.network.repositories.WeatherDataRepositoryimport org.koin.dsl.moduleval repositoryModule = module {    single { WeatherDataRepository() }}

@@ -75,4 +75,10 @@ dependencies {
 
     // Coil
     implementation("io.coil-kt:coil:2.6.0")
+
+    // Location
+    implementation("com.google.android.gms:play-services-location:21.2.0")
+
+    // Swipe Refresh Layout
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 }
