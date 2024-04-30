@@ -73,9 +73,16 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setWeatherDataAdapter()
         setObServers()
+        setListeners()
         if (!isInitialLocationSet) {
             setCurrentLocation(currentLocation = sharedPreferencesManager.getCurrentLocation())
             isInitialLocationSet = true
+        }
+    }
+
+    private fun setListeners() {
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            setCurrentLocation(sharedPreferencesManager.getCurrentLocation())
         }
     }
 
@@ -107,6 +114,9 @@ class HomeFragment : Fragment() {
 //                        Toast.LENGTH_SHORT
 //                    ).show()
                 }
+                weatherDataState.forecast?.let { forecasts ->
+                    weatherDataAdapter.setForecastData(forecasts)
+                }
                 weatherDataState.error?.let { error ->
                     Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
                 }
@@ -115,6 +125,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setWeatherDataAdapter() {
+        binding.weatherDataRecyclerView.itemAnimator = null
         binding.weatherDataRecyclerView.adapter = weatherDataAdapter
     }
 
@@ -170,6 +181,7 @@ class HomeFragment : Fragment() {
     private fun showLoading() {
         with(binding) {
             weatherDataRecyclerView.visibility = View.GONE
+            swipeRefreshLayout.isEnabled = false
             swipeRefreshLayout.isRefreshing = true
         }
     }
@@ -177,6 +189,7 @@ class HomeFragment : Fragment() {
     private fun hideLoading() {
         with(binding) {
             weatherDataRecyclerView.visibility = View.VISIBLE
+            swipeRefreshLayout.isEnabled = true
             swipeRefreshLayout.isRefreshing = false
         }
     }
